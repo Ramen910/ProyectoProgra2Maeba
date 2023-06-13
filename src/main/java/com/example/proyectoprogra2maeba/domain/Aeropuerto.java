@@ -73,10 +73,10 @@ public class Aeropuerto {
     public int pistaDisponible() {
         for (int i = 0; i < pistas.size(); i++) {
             if (pistas.get(i).getEstado().equalsIgnoreCase("Libre")) {
-                return i; // Hay un puente disponible
+                return i; // Hay un pista disponible
             }
         }
-        return -1; // No hay puentes disponibles
+        return -1; // No hay pista disponibles
     }
 
     public String printPuentes(){
@@ -87,11 +87,30 @@ public class Aeropuerto {
         return result;
     }
 
-    public void printPistas(){
+    public String printPistas(){
+        String result = "";
         for (Pista pista : pistas) {
-            System.out.println(pista.toString());
+            result += pista.toString()+"\n";
         }
+        return result;
     }
+
+    public String printSalientes(){
+        String result = "";
+        for (Vuelo vuelo : vuelosSalientes) {
+            result += vuelo.toString()+"\n";
+        }
+        return result;
+    }
+
+    public String printEntrantes(){
+        String result = "";
+        for (Vuelo vuelo : vuelosEntrantes) {
+            result += vuelo.toString()+"\n";
+        }
+        return result;
+    }
+
 
 
     public List<Puente> getPuentes() {
@@ -105,12 +124,6 @@ public class Aeropuerto {
 
     public void agregarVueloSaliente(Vuelo vuelo) {
         vuelosSalientes.add(vuelo);
-    }
-
-    public void imprimirListaSaliente(){
-        for (int i = 0; i < vuelosSalientes.size(); i++) {
-            
-        }
     }
     
     public void eliminarVueloEntrante(Vuelo vuelo) {

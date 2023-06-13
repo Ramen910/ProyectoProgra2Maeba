@@ -26,5 +26,19 @@ public class Cliente extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        // Crear y mostrar una segunda instancia del cliente
+        Stage secondStage = new Stage();
+
+        FXMLLoader secondLoader = new FXMLLoader();
+        secondLoader.setLocation(getClass().getResource("/clientview.fxml"));
+        Parent secondRoot = secondLoader.load();
+
+        ControllerCliente secondController = secondLoader.getController();
+        secondController.init();
+
+        Scene secondScene = new Scene(secondRoot);
+        secondStage.setScene(secondScene);
+        secondStage.show();
     }
 }

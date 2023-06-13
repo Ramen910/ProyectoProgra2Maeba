@@ -68,15 +68,15 @@ public class Vuelo {
 
     @Override
     public String toString() {
-        return "Vuelo{" +
-                "codigo='" + codigo + '\'' +
-                ", horaSalida='" + horaSalida + '\'' +
-                ", horaLlegada='" + horaLlegada + '\'' +
-                ", origen='" + origen + '\'' +
-                ", destino='" + destino + '\'' +
-                ", estado='" + estado + '\'' +
-                ", accionInteres='" + accionInteres + '\'' +
-                ", avion=" + avion +
+        return
+                "Codigo='" + codigo + '\'' +
+                ", Salida='" + horaSalida + '\'' +
+                ", Llegada='" + horaLlegada + '\'' +
+                ", Origen='" + origen + '\'' +
+                ", Destino='" + destino + '\'' +
+                ", Estado='" + estado+" " +avion.getEstado() + '\'' +
+                ", Accion Interes='" + accionInteres + '\'' +
+                ", Avion=" + avion.getPlaca() +
                 '}';
     }
 }

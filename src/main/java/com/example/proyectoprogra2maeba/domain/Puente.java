@@ -36,7 +36,7 @@ public class Puente {
 
     @Override
     public String toString() {
-        String result = "Puente[" +
+        String result = "Puente [" +
                 "Puente Cod=" + idPuente +
                 ", Estado='" + estado + '\'';
         if(current!=null){

@@ -27,6 +27,7 @@ public class ServidorController {
     private TextArea txfEstadoVuelosEntrantes;
 
     public volatile String despegueRealizado = "";
+    public volatile String aterrizajeRealizado = "";
     public Aeropuerto aeropuerto;
     private Queue<Vuelo> colaDespegue = new ArrayBlockingQueue<>(20);
     private Queue<Vuelo> colaAterrizaje = new ArrayBlockingQueue<>(20);
@@ -68,10 +69,8 @@ public class ServidorController {
                 aeropuerto.ocuparPuente(puente, aux);
                 vuelos.get(index).getAvion().setEstado("En Puente");
                 aeropuerto.desocuparPista(vuelos.get(index).getAvion());
-                System.out.println("Moviendo a Puente");
                 this.txfEstadoPuentes.setText(aeropuerto.printPuentes());
-                System.out.println("Pistas");
-                aeropuerto.printPistas();
+                this.txfEstadoPistas.setText(aeropuerto.printPistas());
                 return 1;
             } else {
                 System.out.println("No hay puentes dispobles");
@@ -99,11 +98,8 @@ public class ServidorController {
             aeropuerto.ocuparPista(pista, aux);
             vuelos.get(index).getAvion().setEstado("En Pista");
             aeropuerto.desocuparPuente(vuelos.get(index).getAvion());
-            System.out.println("Moviendo a Pista");
             this.txfEstadoPuentes.setText(aeropuerto.printPuentes());
-            aeropuerto.printPuentes();
-            System.out.println("Pistas");
-            aeropuerto.printPistas();
+            this.txfEstadoPistas.setText(aeropuerto.printPistas());
             return 1;
         } else {
             System.out.println("No hay pistas dispobles");
@@ -120,11 +116,11 @@ public class ServidorController {
                     new Thread(() -> {
                         int tiempoEspera = 0;
                         if (aux.getTipo().equalsIgnoreCase("Comercial")) {
-                            tiempoEspera = 30000; // 2 segundos
+                            tiempoEspera = 20000; // 2 segundos
                         } else if (aux.getTipo().equalsIgnoreCase("Avioneta")) {
-                            tiempoEspera = 90000; // 1 segundo
+                            tiempoEspera = 10000; // 1 segundo
                         } else if (aux.getTipo().equalsIgnoreCase("Carga")) {
-                            tiempoEspera = 4000; // 4 segundos
+                            tiempoEspera = 40000; // 4 segundos
                         }
                         vuelos.get(index).setEstado("En Espera");
                         System.out.println("Esperando Despegue" + vuelos.get(index).getCodigo());
@@ -146,7 +142,7 @@ public class ServidorController {
         return -1;
     }
 
-    public boolean pedirAterrizaje(String id) {
+    public int pedirAterrizaje(String id) {
         int index = -1;
         for (int i = 0; i < vuelos.size(); i++) {
             if (vuelos.get(i).getCodigo().equalsIgnoreCase(id)) {
@@ -154,15 +150,18 @@ public class ServidorController {
                 break;
             }
         }
+        if(index==-1) return -1;
+
         Aeronave aux = vuelos.get(index).getAvion();
         if (aux.getEstado().equalsIgnoreCase("En Vuelo")) {
             colaAterrizaje.offer(vuelos.get(index));
             System.out.println("Esperando Aterrizaje");
-            return true;
+            return 1;
         } else {
             System.out.println("No puede aterrizar si no está en pista");
+            return 0;
         }
-        return false;
+
     }
 
     public void iniciarColaDespegue() {
@@ -176,10 +175,9 @@ public class ServidorController {
                         vuelo.getAvion().setEstado("En Vuelo");
                         aeropuerto.desocuparPista(vuelo.getAvion());
                         despegueRealizado = vuelo.getCodigo();
-                        System.out.println("Puentes");
+                        this.txfEstadoPistas.setText(aeropuerto.printPistas());
                         this.txfEstadoPuentes.setText(aeropuerto.printPuentes());
-                        System.out.println("Pistas");
-                        aeropuerto.printPistas();
+                        this.txfEstadoVuelosSalientes.setText(aeropuerto.printSalientes());
                         System.out.println("Despegando vuelo " + vuelo.getCodigo());
                     }
                 }
@@ -216,10 +214,10 @@ public class ServidorController {
                         aeropuerto.agregarVueloEntrante(vuelo);
                         vuelo.getAvion().setEstado("En Pista");
                         aeropuerto.ocuparPista(pistaDisponible, vuelo.getAvion());
-                        System.out.println("Puentes");
+                        aterrizajeRealizado = vuelo.getCodigo();
+                        this.txfEstadoPistas.setText(aeropuerto.printPistas());
                         this.txfEstadoPuentes.setText(aeropuerto.printPuentes());
-                        System.out.println("Pistas");
-                        aeropuerto.printPistas();
+                        this.txfEstadoVuelosEntrantes.setText(aeropuerto.printEntrantes());
                         System.out.println("Aterrizando vuelo " + vuelo.getCodigo());
                     }
                 }
@@ -237,6 +235,7 @@ public class ServidorController {
     }
 
     public void initView(){
+        this.txfEstadoPistas.setText(aeropuerto.printPistas());
         this.txfEstadoPuentes.setText(aeropuerto.printPuentes());
     }
 
@@ -324,7 +323,25 @@ public class ServidorController {
                         } else if (option.equalsIgnoreCase("SOLICITAR_ATERRIZAJE")) {
                             out.println("SOLICITAR_CODIGO");
                             String id = in.readLine();
-                            pedirAterrizaje(id);
+                            Thread aterrizaje = new Thread(() -> {
+                                int result = pedirAterrizaje(id);
+                                if(result == 1){
+                                    out.println("AUTORIZED");
+                                    while (!aterrizajeRealizado.equals(id)) {
+                                        try {
+                                            Thread.sleep(1000); // Pausa de 100 milisegundos
+                                        } catch (InterruptedException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                    out.println("READY");
+                                }else if(result == 0){
+                                    out.println("UNAUTORIZED");
+                                }else{
+                                    out.println("NOT_FOUND");
+                                }
+                            });
+                            aterrizaje.start();
                         }else if(option.equalsIgnoreCase("INFO_VUELO")){
 
                             out.println("SOLICITAR_CODIGO");

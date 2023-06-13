@@ -37,9 +37,13 @@ public class Pista {
 
     @Override
     public String toString() {
-        return "Pista{" +
-                "idPista=" + idPista +
-                ", estado='" + estado + '\'' +
-                '}';
+        String result = "Pista [" +
+                "Código=" + idPista +
+                ", Estado='" + estado + '\'';
+        if(current!=null){
+            result += ", Aeronave="+ getAvion().getPlaca();
+        }
+        result += ']';
+        return result;
     }
 }
