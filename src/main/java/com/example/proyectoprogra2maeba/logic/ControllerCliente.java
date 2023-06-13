@@ -1,4 +1,4 @@
-package com.example.proyectoprogra2maeba.client;
+package com.example.proyectoprogra2maeba.logic;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -175,17 +175,22 @@ public class ControllerCliente {
                 // Leer la respuesta del servidor
                 String respuesta = in.readLine();
                 System.out.println(respuesta);
-                // Cerrar conexión
-                socket.close();
-
-                // Actualizar los campos de texto con la respuesta del servidor
                 if (respuesta.equals("AUTORIZED")) {
-                    txfEstado.setText("En Pista");
-                    txfEstadoActual.setText("Autorizado, aterrizando...");
-                } else if (respuesta.equals("UNAUTORIZED")) {
-                    txfEstadoActual.setText("No fue autorizado para aterrizar.");
-                } else {
-                    showErrorMessageDialog("No se encontró ese vuelo");
+                    new Thread(() -> {
+                        try {
+                            String res = in.readLine();
+                            System.out.println(respuesta);
+                            if (res.equalsIgnoreCase("READY")) {
+                                txfEstado.setText("En Pista");
+                                txfEstadoActual.setText("Aterrizaje realizado con éxito...");
+                            } else {
+                                showErrorMessageDialog("No se pudo aterrizar");
+                            }
+                            socket.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
                 }
 
             } else {

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane fx:controller="com.example.proyectoprogra2maeba.logic.ServidorController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500" prefWidth="820.0" style="-fx-background-color: #E3E3E3;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label prefHeight="44.0" prefWidth="84.0" textFill="WHITE" />
+        <AnchorPane layoutY="-1.0" prefHeight="500.0" prefWidth="820.0" style="-fx-background-color: #323467;">
+            <children>
+                <Label layoutX="170.0" layoutY="20" prefHeight="19.0" prefWidth="110.0" text="Estado Pistas" textFill="WHITE">
+                    <font>
+                        <Font name="Century Schoolbook" size="15.0"/>
+                    </font>
+                </Label>
+                <ScrollPane fx:id="scrollEstadoPistas" layoutX="36.0" layoutY="40.0" prefHeight="100.0" prefWidth="341.0">
+                    <TextArea fx:id="txfEstadoPistas" prefHeight="100.0" prefWidth="320.0" editable="false" style="-fx-fill: black;" />
+                </ScrollPane>
+                <Label layoutX="550.0" layoutY="20" prefHeight="19.0" prefWidth="110.0" text="Estado Puentes" textFill="WHITE">
+                    <font>
+                        <Font name="Century Schoolbook" size="15.0" />
+                    </font>
+                </Label>
+                <ScrollPane fx:id="scrollEstadoPuentes" layoutX="450.0" layoutY="40.0" prefHeight="100.0" prefWidth="341.0">
+                    <TextArea fx:id="txfEstadoPuentes" prefHeight="100.0" prefWidth="340.0" editable="false" />
+                </ScrollPane>
+                <Label layoutX="340.0" layoutY="150.0" prefHeight="19.0" prefWidth="130.0" text="Vuelos Salientes" textFill="WHITE">
+                    <font>
+                        <Font name="Century Schoolbook" size="15.0" />
+                    </font>
+                </Label>
+                <ScrollPane fx:id="scrollEstadoVuelosSalientes" layoutX="136.0" layoutY="180.0" prefHeight="100.0" prefWidth="530.0">
+                    <TextArea fx:id="txfEstadoVuelosSalientes" prefHeight="100.0" prefWidth="930.0" editable="false" />
+                </ScrollPane>
+
+                <Label layoutX="340.0" layoutY="300.0" prefHeight="19.0" prefWidth="150.0" text="Vuelos Entrantes" textFill="WHITE">
+                    <font>
+                        <Font name="Century Schoolbook" size="15.0" />
+                    </font>
+                </Label>
+                <ScrollPane fx:id="scrollEstadoVuelosEntrantes" layoutX="136.0" layoutY="330.0" prefHeight="100.0" prefWidth="530.0">
+                    <TextArea fx:id="txfEstadoVuelosEntrantes" prefHeight="100.0" prefWidth="930.0" editable="false" />
+                </ScrollPane>
+
+
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

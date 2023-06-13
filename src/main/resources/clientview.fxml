@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:controller="com.example.proyectoprogra2maeba.client.ControllerCliente" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="600.0" style="-fx-background-color: #E3E3E3;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:controller="com.example.proyectoprogra2maeba.logic.ControllerCliente" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="346.0" prefWidth="600.0" style="-fx-background-color: #E3E3E3;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label prefHeight="44.0" prefWidth="84.0" textFill="WHITE" />
       <AnchorPane layoutY="-1.0" prefHeight="346.0" prefWidth="600.0" style="-fx-background-color: #4C6076;">
@@ -14,26 +14,26 @@
                   <Font name="Century Schoolbook" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="txfSalida" layoutX="152.0" layoutY="129.0" prefHeight="25.0" prefWidth="110.0" disable="true" style="-fx-background-color: white;" />
+            <TextField fx:id="txfSalida" layoutX="152.0" layoutY="129.0" prefHeight="25.0" prefWidth="110.0" editable="false" style="-fx-background-color: #D8CCD6;" />
             <Label layoutX="307.0" layoutY="132.0" prefHeight="19.0" prefWidth="129.0" text="Hora de llegada:" textFill="WHITE">
                <font>
                   <Font name="Century Schoolbook" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="txfLlegada" layoutX="425.0" layoutY="129.0" prefHeight="25.0" prefWidth="117.0"  disable="true" style="-fx-background-color: white;" />
+            <TextField fx:id="txfLlegada" layoutX="425.0" layoutY="129.0" prefHeight="25.0" prefWidth="117.0"  editable="false" style="-fx-background-color: #D8CCD6;" />
             <Label layoutX="307.0" layoutY="85.0" text="Estado:" textFill="WHITE">
                <font>
                   <Font name="Century Schoolbook" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="txfEstado" layoutX="392.0" layoutY="82.0" prefHeight="25.0" prefWidth="150.0" disable="true" style="-fx-background-color: white;" />
+            <TextField fx:id="txfEstado" layoutX="392.0" layoutY="82.0" prefHeight="25.0" prefWidth="150.0" editable="false" style="-fx-background-color: #D8CCD6;" />
             <Label layoutX="305.0" layoutY="37.0" text="Origen: " textFill="WHITE">
                <font>
                   <Font name="Century Schoolbook" size="15.0" />
                </font>
             </Label>
             <TextField fx:id="txfOrigen" layoutX="392.0" layoutY="34.0" prefWidth="150.0" disable="true" style="-fx-background-color: white;" />
-            <TextField fx:id="txfDestino" layoutX="110.0" layoutY="82.0" prefHeight="25.0" prefWidth="150.0" disable="true" style="-fx-background-color: white;" />
+            <TextField fx:id="txfDestino" layoutX="110.0" layoutY="82.0" prefHeight="25.0" prefWidth="150.0" editable="false" style="-fx-background-color: #D8CCD6;" />
             <Label layoutX="42.0" layoutY="85.0" text="Destino:" textFill="WHITE">
                <font>
                   <Font name="Century Schoolbook" size="15.0" />
@@ -44,8 +44,8 @@
                   <Font name="Century Schoolbook" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="txfCodigo" layoutX="111.0" layoutY="34.0" prefHeight="25.0" prefWidth="148.0"  style="-fx-background-color: white;" />
-            <TextArea fx:id="txfEstadoActual" layoutX="36.0" layoutY="278.0" prefHeight="51.0" prefWidth="241.0" disable="true" />
+            <TextField fx:id="txfCodigo" layoutX="111.0" layoutY="34.0" prefHeight="25.0" prefWidth="148.0" />
+            <TextArea fx:id="txfEstadoActual" layoutX="36.0" layoutY="278.0" prefHeight="51.0" prefWidth="241.0" editable="false" style="-fx-background-color: #D8CCD6;" />
             <Label layoutX="77.0" layoutY="185.0" prefHeight="19.0" prefWidth="202.0" text="Acción de interés" textFill="WHITE">
                <font>
                   <Font name="Century Schoolbook" size="15.0" />
@@ -56,7 +56,7 @@
             <Button fx:id="btnPuente" layoutX="307.0" layoutY="235.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="241.0" text="Solicitar puente" />
             <Button fx:id="btnDespegar" layoutX="307.0" layoutY="265.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="241.0" text="Despegar" />
             <Button fx:id="btnAterrizar" layoutX="307.0" layoutY="295.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="241.0" text="Aterrizar" />
-            <TextField fx:id="txfAccion" layoutX="36.0" layoutY="207.0" prefHeight="25.0" prefWidth="232.0" disable="true" style="-fx-background-color: white;" />
+            <TextField fx:id="txfAccion" layoutX="36.0" layoutY="207.0" prefHeight="25.0" prefWidth="232.0" editable="false" style="-fx-background-color: #D8CCD6;" />
             <Label layoutX="97.0" layoutY="256.0" prefHeight="19.0" prefWidth="110.0" text="Estado actual" textFill="WHITE">
                <font>
                   <Font name="Century Schoolbook" size="15.0" />
