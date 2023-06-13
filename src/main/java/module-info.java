@@ -5,7 +5,7 @@ module com.example.proyectoprogra2maeba {
     requires org.controlsfx.controls;
 
     opens com.example.proyectoprogra2maeba to javafx.fxml;
-    opens com.example.proyectoprogra2maeba.client to javafx.fxml;
-    exports com.example.proyectoprogra2maeba.client;
+    opens com.example.proyectoprogra2maeba.presentation.client to javafx.fxml;
+    exports com.example.proyectoprogra2maeba.presentation.client;
     exports com.example.proyectoprogra2maeba;
 }
