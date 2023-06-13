@@ -8,4 +8,6 @@ module com.example.proyectoprogra2maeba {
     opens com.example.proyectoprogra2maeba.presentation.client to javafx.fxml;
     exports com.example.proyectoprogra2maeba.presentation.client;
     exports com.example.proyectoprogra2maeba;
+    exports com.example.proyectoprogra2maeba.logic;
+    opens com.example.proyectoprogra2maeba.logic to javafx.fxml;
 }

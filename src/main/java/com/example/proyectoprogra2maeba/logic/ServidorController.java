@@ -1,31 +1,45 @@
 package com.example.proyectoprogra2maeba.logic;
 
 import com.example.proyectoprogra2maeba.domain.*;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class ServidorATC {
+public class ServidorController {
+
+    @FXML
+    private TextArea txfEstadoPistas;
+    @FXML
+    private  TextArea txfEstadoPuentes;
+    @FXML
+    private  TextArea txfEstadoVuelosSalientes;
+    @FXML
+    private TextArea txfEstadoVuelosEntrantes;
+
     public volatile String despegueRealizado = "";
     public Aeropuerto aeropuerto;
     private Queue<Vuelo> colaDespegue = new ArrayBlockingQueue<>(20);
     private Queue<Vuelo> colaAterrizaje = new ArrayBlockingQueue<>(20);
     public List<Vuelo> vuelos = new ArrayList<>();
 
-    public ServidorATC() {
-        this.aeropuerto = new Aeropuerto("Juan Santa María");
-        vuelos.add(new Vuelo("1", "10:00AM", "3:00PM", "Aeropuerto1", "Aeropuerto4", new Aeronave("12345", "Comercial")));
-        vuelos.add(new Vuelo("2", "11:00AM", "9:00PM", "Aeropuerto2", "Aeropuerto3", new Aeronave("23456", "Avioneta")));
-        vuelos.add(new Vuelo("3", "1:00AM", "1:00PM", "Aeropuerto3", "Aeropuerto2", new Aeronave("34567", "Comercial")));
-        vuelos.add(new Vuelo("4", "7:00AM", "10:00AM", "Aeropuerto4", "Aeropuerto1", new Aeronave("45678", "Avioneta")));
-        this.aeropuerto.agregarPista(new Pista(1, "Libre"));
-        this.aeropuerto.agregarPista(new Pista(2, "Libre"));
-        this.aeropuerto.agregarPista(new Pista(3, "Libre"));
-        this.aeropuerto.agregarPuente(new Puente(1, "Libre"));
-        this.aeropuerto.agregarPuente(new Puente(2, "Libre"));
-        this.aeropuerto.agregarPuente(new Puente(3, "Libre"));
+    public ServidorController() {
+
+        try {
+            initInfo();
+            initServer();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String pedirInfo(String id){
@@ -55,8 +69,7 @@ public class ServidorATC {
                 vuelos.get(index).getAvion().setEstado("En Puente");
                 aeropuerto.desocuparPista(vuelos.get(index).getAvion());
                 System.out.println("Moviendo a Puente");
-                System.out.println("Puentes");
-                aeropuerto.printPuentes();
+                this.txfEstadoPuentes.setText(aeropuerto.printPuentes());
                 System.out.println("Pistas");
                 aeropuerto.printPistas();
                 return 1;
@@ -87,7 +100,7 @@ public class ServidorATC {
             vuelos.get(index).getAvion().setEstado("En Pista");
             aeropuerto.desocuparPuente(vuelos.get(index).getAvion());
             System.out.println("Moviendo a Pista");
-            System.out.println("Puentes");
+            this.txfEstadoPuentes.setText(aeropuerto.printPuentes());
             aeropuerto.printPuentes();
             System.out.println("Pistas");
             aeropuerto.printPistas();
@@ -164,7 +177,7 @@ public class ServidorATC {
                         aeropuerto.desocuparPista(vuelo.getAvion());
                         despegueRealizado = vuelo.getCodigo();
                         System.out.println("Puentes");
-                        aeropuerto.printPuentes();
+                        this.txfEstadoPuentes.setText(aeropuerto.printPuentes());
                         System.out.println("Pistas");
                         aeropuerto.printPistas();
                         System.out.println("Despegando vuelo " + vuelo.getCodigo());
@@ -204,7 +217,7 @@ public class ServidorATC {
                         vuelo.getAvion().setEstado("En Pista");
                         aeropuerto.ocuparPista(pistaDisponible, vuelo.getAvion());
                         System.out.println("Puentes");
-                        aeropuerto.printPuentes();
+                        this.txfEstadoPuentes.setText(aeropuerto.printPuentes());
                         System.out.println("Pistas");
                         aeropuerto.printPistas();
                         System.out.println("Aterrizando vuelo " + vuelo.getCodigo());
@@ -221,6 +234,119 @@ public class ServidorATC {
         });
 
         colaDespegueThread.start();
+    }
+
+    public void initView(){
+        this.txfEstadoPuentes.setText(aeropuerto.printPuentes());
+    }
+
+    private void initInfo(){
+        this.aeropuerto = new Aeropuerto("Juan Santa María");
+        vuelos.add(new Vuelo("1", "10:00AM", "3:00PM", "Aeropuerto1", "Aeropuerto4", new Aeronave("12345", "Comercial")));
+        vuelos.add(new Vuelo("2", "11:00AM", "9:00PM", "Aeropuerto2", "Aeropuerto3", new Aeronave("23456", "Avioneta")));
+        vuelos.add(new Vuelo("3", "1:00AM", "1:00PM", "Aeropuerto3", "Aeropuerto2", new Aeronave("34567", "Comercial")));
+        vuelos.add(new Vuelo("4", "7:00AM", "10:00AM", "Aeropuerto4", "Aeropuerto1", new Aeronave("45678", "Avioneta")));
+        this.aeropuerto.agregarPista(new Pista(1, "Libre"));
+        this.aeropuerto.agregarPista(new Pista(2, "Libre"));
+        this.aeropuerto.agregarPista(new Pista(3, "Libre"));
+        this.aeropuerto.agregarPuente(new Puente(1, "Libre"));
+        this.aeropuerto.agregarPuente(new Puente(2, "Libre"));
+        this.aeropuerto.agregarPuente(new Puente(3, "Libre"));
+    }
+
+    private void initServer() throws IOException {
+        iniciarColaDespegue();
+        iniciarColaAterrizaje();
+        ServerSocket serverSocket = new ServerSocket(8080);
+        System.out.println("Servidor iniciado. Esperando conexiones...");
+        new Thread(()->{
+            while (true) {
+                Socket clientSocket = null;
+                try {
+                    clientSocket = serverSocket.accept();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println("Cliente conectado: " + clientSocket.getInetAddress().getHostAddress());
+                Socket finalClientSocket = clientSocket;
+                Thread thread = new Thread(() -> {
+                    try {
+                        BufferedReader in = new BufferedReader(new InputStreamReader(finalClientSocket.getInputStream()));
+                        PrintWriter out = new PrintWriter(finalClientSocket.getOutputStream(), true);
+
+                        // Leer la solicitud del cliente
+                        String option= in.readLine();
+                        System.out.print(option);
+                        if (option.equalsIgnoreCase("SOLICITAR_PUENTE")) {
+                            out.println("SOLICITAR_CODIGO");
+                            String id = in.readLine();
+                            int result = pedirPuente(id);
+                            if(result == 1){
+                                out.println("AUTORIZED");
+                            }else if(result == 0){
+                                out.println("UNAUTORIZED");
+                            }else{
+                                out.println("NOT_FOUND");
+                            }
+                        } else if (option.equalsIgnoreCase("SOLICITAR_PISTA")) {
+                            out.println("SOLICITAR_CODIGO");
+                            String id = in.readLine();
+                            int result = pedirPista(id);
+                            if(result == 1){
+                                out.println("AUTORIZED");
+                            }else if(result == 0){
+                                out.println("UNAUTORIZED");
+                            }else{
+                                out.println("NOT_FOUND");
+                            }
+                        } else if (option.equalsIgnoreCase("SOLICITAR_DESPEGUE")) {
+                            out.println("SOLICITAR_CODIGO");
+                            String id = in.readLine();
+                            Thread despegue = new Thread(() -> {
+                                int result = pedirDespegue(id);
+                                if(result == 1){
+                                    out.println("AUTORIZED");
+                                    while (!despegueRealizado.equals(id)) {
+                                        try {
+                                            Thread.sleep(1000); // Pausa de 100 milisegundos
+                                        } catch (InterruptedException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                    out.println("READY");
+                                }else if(result == 0){
+                                    out.println("UNAUTORIZED");
+                                }else{
+                                    out.println("NOT_FOUND");
+                                }
+                            });
+                            despegue.start();
+                        } else if (option.equalsIgnoreCase("SOLICITAR_ATERRIZAJE")) {
+                            out.println("SOLICITAR_CODIGO");
+                            String id = in.readLine();
+                            pedirAterrizaje(id);
+                        }else if(option.equalsIgnoreCase("INFO_VUELO")){
+
+                            out.println("SOLICITAR_CODIGO");
+                            String id= in.readLine();
+                            String respuesta = pedirInfo(id);
+                            if(respuesta.length()>0){
+                                out.println(respuesta);
+                            }else{
+                                out.println("NOT_FOUND");
+                            }
+
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                });
+                thread.start();
+
+            }
+        }).start();
+
     }
 
 }

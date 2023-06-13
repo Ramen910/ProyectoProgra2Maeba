@@ -36,9 +36,13 @@ public class Puente {
 
     @Override
     public String toString() {
-        return "Puente{" +
-                "idPuente=" + idPuente +
-                ", estado='" + estado + '\'' +
-                '}';
+        String result = "Puente[" +
+                "Puente Cod=" + idPuente +
+                ", Estado='" + estado + '\'';
+        if(current!=null){
+            result += ", Aeronave="+ getAvion().getPlaca();
+        }
+        result += ']';
+        return result;
     }
 }

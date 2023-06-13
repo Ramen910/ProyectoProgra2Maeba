@@ -79,10 +79,12 @@ public class Aeropuerto {
         return -1; // No hay puentes disponibles
     }
 
-    public void printPuentes(){
+    public String printPuentes(){
+        String result = "";
         for (Puente puente : puentes) {
-            System.out.println(puente.toString());
+            result += puente.toString()+"\n";
         }
+        return result;
     }
 
     public void printPistas(){

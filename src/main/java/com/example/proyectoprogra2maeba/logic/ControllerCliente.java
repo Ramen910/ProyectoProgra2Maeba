@@ -1,4 +1,4 @@
-package com.example.proyectoprogra2maeba.presentation.client;
+package com.example.proyectoprogra2maeba.logic;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
