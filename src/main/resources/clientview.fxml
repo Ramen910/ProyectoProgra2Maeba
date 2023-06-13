@@ -44,7 +44,7 @@
                   <Font name="Century Schoolbook" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="txfCodigo" layoutX="111.0" layoutY="34.0" prefHeight="25.0" prefWidth="148.0" editable="false"  style="-fx-background-color: #D8CCD6;" />
+            <TextField fx:id="txfCodigo" layoutX="111.0" layoutY="34.0" prefHeight="25.0" prefWidth="148.0" />
             <TextArea fx:id="txfEstadoActual" layoutX="36.0" layoutY="278.0" prefHeight="51.0" prefWidth="241.0" editable="false" style="-fx-background-color: #D8CCD6;" />
             <Label layoutX="77.0" layoutY="185.0" prefHeight="19.0" prefWidth="202.0" text="Acción de interés" textFill="WHITE">
                <font>

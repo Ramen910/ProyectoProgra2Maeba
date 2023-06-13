@@ -173,20 +173,23 @@ public class ControllerCliente {
                 // Enviar el código del vuelo al servidor
                 out.println(codigoVuelo);
                 // Leer la respuesta del servidor
-                String respuesta = in.readLine();
-                System.out.println(respuesta);
-                // Cerrar conexión
-                socket.close();
+                String res = in.readLine();
+                System.out.println(res);
+                new Thread(()->{
+                    try {
 
-                // Actualizar los campos de texto con la respuesta del servidor
-                if (respuesta.equals("AUTORIZED")) {
-                    txfEstado.setText("En Pista");
-                    txfEstadoActual.setText("Autorizado, aterrizando...");
-                } else if (respuesta.equals("UNAUTORIZED")) {
-                    txfEstadoActual.setText("No fue autorizado para aterrizar.");
-                } else {
-                    showErrorMessageDialog("No se encontró ese vuelo");
-                }
+                        if(res.equalsIgnoreCase("READY")){
+                            txfEstado.setText("En Pista");
+                            txfEstadoActual.setText("Aterrizaje realizado con éxito...");
+                        }else {
+                            showErrorMessageDialog("No se pudo aterrizar");
+                        }
+                        socket.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).start();
+
 
             } else {
                 showErrorMessageDialog("No se pudo terminar la comunicación con el servidor");
